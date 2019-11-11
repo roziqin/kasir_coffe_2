@@ -262,7 +262,7 @@ if ($kond=='home' || $kond=='') { ?>
 	    	<form method="post" class="form-jumlah">
 	    		<input type="hidden" id="barang_id" class="form-control" value="<?php echo $_GET['id']; ?>" name="barang_id">  	
 	    		<div class="md-form mb-3">
-				  	<input type="text" id="jumlah" class="form-control" name="jumlah" >
+				  	<input type="text" id="jumlah" class="form-control" name="jumlah" autofocus>
 				  	<label for="jumlah">Jumlah dipesan</label>
 				</div>
 	    		<div class="md-form">
@@ -271,6 +271,20 @@ if ($kond=='home' || $kond=='') { ?>
 				</div>
 				<button class="btn btn-primary prosesmenu float-right">Proses</button>
 	    	</form>
+            <div class="row">
+                <div class="col-4"><div class="btn btn-default btn-calc" data-val="1">1</div></div>
+                <div class="col-4"><div class="btn btn-default btn-calc" data-val="2">2</div></div>
+                <div class="col-4"><div class="btn btn-default btn-calc" data-val="3">3</div></div>
+                <div class="col-4"><div class="btn btn-default btn-calc" data-val="4">4</div></div>
+                <div class="col-4"><div class="btn btn-default btn-calc" data-val="5">5</div></div>
+                <div class="col-4"><div class="btn btn-default btn-calc" data-val="6">6</div></div>
+                <div class="col-4"><div class="btn btn-default btn-calc" data-val="7">7</div></div>
+                <div class="col-4"><div class="btn btn-default btn-calc" data-val="8">8</div></div>
+                <div class="col-4"><div class="btn btn-default btn-calc" data-val="9">9</div></div>
+                <div class="col-4"><div class="btn btn-danger btn-calc" data-val="C">C</div></div>
+                <div class="col-4"><div class="btn btn-default btn-calc" data-val="0">0</div></div>
+                <div class="col-4"></div>
+            </div>
 	    </div>
     </div>
 
@@ -718,7 +732,18 @@ if ($kond=='home' || $kond=='') { ?>
 <?php } elseif ($kond=='jumlah' ) { ?>
 
 	<script type="text/javascript">
-		
+		$('.btn-calc').on('click',function(e){
+            var val = $(this).data('val');
+            var jml = $('#jumlah').val();
+            if (val=='C') {
+                $('#jumlah').val('');
+            } else {
+                $('#jumlah').val(jml+""+val);
+            }
+            $(".form-jumlah label").addClass("active");
+
+        });
+
 		$('.prosesmenu').on('click',function(e){
 			e.preventDefault();
 	        var data = $('.form-jumlah').serialize();
