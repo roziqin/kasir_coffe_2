@@ -204,7 +204,7 @@ if($_GET['ket']=='tambahmenu'){
 
 	$kembalian = $bayar - $total;
 
-	$sql = "INSERT INTO transaksi (transaksi_nota,transaksi_tanggal,transaksi_bulan,transaksi_waktu,transaksi_pelanggan,transaksi_no_meja,transaksi_lantai,transaksi_total,transaksi_diskon,transaksi_tax,transaksi_tax_service,transaksi_bayar,transaksi_type_bayar,transaksi_user,transaksi_ket,transaksi_ordertype) VALUES ('$no_not','$tgl','$bln','$wkt','$nama','$meja','$lantai','$total','$jumlahdiskon','$tax','0','$bayar','$paytype','$user','','$ordertype')" ;
+	$sql = "INSERT INTO transaksi (transaksi_nota,transaksi_tanggal,transaksi_bulan,transaksi_waktu,transaksi_pelanggan,transaksi_no_meja,transaksi_lantai,transaksi_total,transaksi_diskon,transaksi_tax,transaksi_tax_service,transaksi_bayar,transaksi_type_bayar,transaksi_user,transaksi_ket,transaksi_ordertype) VALUES ('$no_not','$tgl','$bln','$wkt','$nama','$meja','$lantai','$total','$jumlahdiskon','$tax','0','$bayar','$paytype','$user','print','$ordertype')" ;
 
 	mysqli_query($con,$sql);
 
@@ -338,6 +338,11 @@ if($_GET['ket']=='tambahmenu'){
 
 	}
 	echo json_encode($array_datas);
+	
+} elseif($_GET['ket']=='updateket'){
+	$id = $_POST['id'];
+	$sql="UPDATE transaksi set transaksi_ket='print' where transaksi_id='$id'";
+	mysqli_query($con,$sql);
 	
 } elseif($_GET['ket']=='tes') {
 	$sql="SELECT * from users where id='$user'";

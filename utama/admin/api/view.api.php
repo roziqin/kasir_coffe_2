@@ -48,6 +48,10 @@ if ($func=='dasboard-omset') {
 } elseif ($func=='list-transaksi-temp') {
     $user = $_SESSION['login_user'];
     $query="SELECT * from transaksi_detail_temp, barang, kategori where transaksi_detail_temp_barang_id=barang_id and kategori_id=barang_kategori and transaksi_detail_temp_user='$user' ORDER BY transaksi_detail_temp_id";
+
+} elseif ($func=='list-transaksi-print') {
+    $query="SELECT * from transaksi where transaksi_ket='' ORDER BY transaksi_id ASC";
+    
 } elseif ($func=='laporan-omset') {
 	
     
@@ -198,6 +202,31 @@ if ($func=="laporan-omset" || $func=="laporan-kasir") {
 		$row_array['total'] = $data['total'];
         array_push($array_data,$row_array);
 	}
+} elseif ($func=="list-transaksi-print") {
+    
+   
+    while($data = mysqli_fetch_assoc($result))
+    {
+        $array_data[]=$data;
+        $nota = $data['transaksi_nota'];
+        
+        $sqlc1=mysqli_query($con, "SELECT COUNT(*) as snack from transaksi_detail, barang, kategori where transaksi_detail_barang_id=barang_id and barang_kategori=kategori_id and kategori_jenis='Snack' and transaksi_detail_nota='$nota'");
+        $datac1=mysqli_fetch_assoc($sqlc1);
+        $snack=$datac1['snack'];
+
+        $sqlc2=mysqli_query($con, "SELECT COUNT(*) as makanan from transaksi_detail, barang, kategori where transaksi_detail_barang_id=barang_id and barang_kategori=kategori_id and kategori_jenis='Makanan' and transaksi_detail_nota='$nota'");
+        $datac2=mysqli_fetch_assoc($sqlc2);
+        $makanan=$datac2['makanan'];
+
+        $sqlc3=mysqli_query($con, "SELECT COUNT(*) as minuman from transaksi_detail, barang, kategori where transaksi_detail_barang_id=barang_id and barang_kategori=kategori_id and kategori_jenis='Minuman' and transaksi_detail_nota='$nota'");
+        $datac3=mysqli_fetch_assoc($sqlc3);
+        $minuman=$datac3['minuman'];
+
+        $row_array['snack'] = $snack;
+        $row_array['makanan'] = $makanan;
+        $row_array['minuman'] = $minuman;
+        array_push($array_data,$row_array);
+    }
 } else {
 	while($baris = mysqli_fetch_assoc($result))
 	{

@@ -293,7 +293,7 @@ if ($kond=='home' || $kond=='') { ?>
         var nota = $("#ketnota").val();
         var printnota = 'print/nota.print.php?id='+nota;
         
-
+        /*
         if (($("#print-kitchen").val()==1 && $("#cekprintmakanan").val()!=0) && ($("#print-snack").val()==1 && $("#cekprintsnack").val()==0) && ($("#print-bar").val()==1 && $("#cekprintminuman").val()==0)) {
 
             if ($("#cekordertype").val()!='online') {
@@ -359,7 +359,14 @@ if ($kond=='home' || $kond=='') { ?>
             }
 
         }
+        */
 
+        if ($("#cekordertype").val()!='online') {
+            windowList = new Array('print/nota.print.php?id='+nota , 'print/checklist.print.php?set=check&id='+nota );
+        } else {
+            windowList = new Array('print/nota.print.php?id='+nota , 'print/nota.print.php?id='+nota , 'print/checklist.print.php?set=check&id='+nota);
+        }
+        
         i = 0;
         windowName = "window";
         windowInterval = window.setInterval(function(){
@@ -576,8 +583,13 @@ if ($kond=='home' || $kond=='') { ?>
 					$('#listitem table').append(content);
 					$('.container__load').load('components/content/transaksi.content.php?kond=');
 
-					$('.btn-remove').on('click',function(){
-						console.log($(this).parent().parent().index());
+					$('.btn-remove').unbind('click').click(function() {
+                        var indexitem = $(this).parent().parent().index();
+                        var id = $(this).data('id');
+                        console.log("tambah "+indexitem+" "+id)
+                        
+                        removeItemTemp(id, indexitem);
+                        
 					});
 
 
@@ -786,8 +798,12 @@ if ($kond=='home' || $kond=='') { ?>
 						$('#listitem table').append(content);
 						$('.container__load').load('components/content/transaksi.content.php?kond=');
 
-						$('.btn-remove').on('click',function(){
-							console.log($(this).parent().parent().index());
+						$('.btn-remove').unbind('click').click(function() {
+                            var indexitem = $(this).parent().parent().index();
+                            var id = $(this).data('id');
+                        console.log("plusminus "+indexitem+" "+id)
+
+                            removeItemTemp(id, indexitem);
 						});
 
 						$('.btn-plusminus').on('click',function(){
@@ -867,6 +883,7 @@ if ($kond=='home') { ?>
 				$('.btn-remove').on('click',function(){
 					var indexitem = $(this).parent().parent().index();
 					var id = $(this).data('id');
+                        console.log("home "+indexitem+" "+id)
 
 					removeItemTemp(id, indexitem);
 				});
@@ -986,7 +1003,15 @@ if ($kond=='home') { ?>
 				$('#total').append(formatRupiah(total.toString(), 'Rp. '));
 				*/
 
-				$('.container__load').load('components/content/transaksi.content.php?kond=home');
+                $('.container__load').load('components/content/transaksi.content.php?kond=home');
+                $('.btn-remove').unbind('click').click(function() {
+                    var indexitem = $(this).parent().parent().index();
+                    var id = $(this).data('id');
+                    console.log("tambah "+indexitem+" "+id)
+                    
+                    removeItemTemp(id, indexitem);
+                    
+                });
 				
             }
         });

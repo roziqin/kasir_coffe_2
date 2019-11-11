@@ -344,6 +344,11 @@ main.transaksi {
 	height: 100vh;
 }
 
+.transaksi .row-nonota {
+	height: 100vh;
+	overflow-y: auto;
+}
+
 .transaksi .form-search {
 	margin-left: -15px;
     margin-right: -15px;
@@ -376,6 +381,12 @@ main.transaksi {
 
 .transaksi .form-search input[type=text]::placeholder {
     color: #FFF!important
+}
+
+.transaksi .btn.box-item {
+	padding: .8rem 0;
+	text-align: center;
+	width: 90%;
 }
 
 .transaksi .box-right .btn {

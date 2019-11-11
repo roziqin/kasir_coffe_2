@@ -5,7 +5,13 @@
 		<div class="main-wrapper">
 		    <div class="container-fluid">
 				<div class="row">
-					<div class="col-md-8 pl-0 pr-0 container__load position-relative">
+					<div class="col-md-1 pl-0 pr-0 position-relative">
+						<div class="pt-3 pl-1 pr-1 row-nonota justify-content-md-center">
+							<h5><b>Transaksi Booth</b></h5>
+							<div class="pt-3 container__load__left"></div>
+						</div>
+					</div>
+					<div class="col-md-7 pl-0 pr-0 container__load position-relative">
 
 					</div>
 
@@ -107,6 +113,114 @@
 	<?php include 'modals/discount.modal.php'; ?>
 <script type="text/javascript">
 	$(document).ready(function(){
+		/*
+		$.ajax({
+		        type:'POST',
+		        url:'api/view.api.php?func=list-transaksi-print',
+		        dataType: "json",
+		        success:function(data){
+		        	console.log(data);
+					
+					for (var i in data) {
+						if (i%2==0) {
+							var n = parseInt(i) + 1;
+							console.log("cek "+data[i].transaksi_nota+" - "+data[n].snack+" "+n);
+						    //content += '<div class="btn box-item btn-print-nota danger-color text-white" data-id="'+data[i].transaksi_id+'" data-nota="'+data[i].transaksi_nota+'">'+data[i].transaksi_nota+'</div>';
+					    }
+					}
+					
+					
+					
+
+		        }
+		    }); 
+
+		/*/
+		setInterval(function(){
+			var content = "";
+			$.ajax({
+		        type:'POST',
+		        url:'api/view.api.php?func=list-transaksi-print',
+		        dataType: "json",
+		        success:function(data){
+		        	//console.log(data);
+
+					for (var i in data) {
+					    if (i%2==0) {
+					    	var n = parseInt(i) + 1;
+						    content += '<div class="btn box-item btn-print-nota danger-color text-white" data-id="'+data[i].transaksi_id+'" data-nota="'+data[i].transaksi_nota+'" data-snack="'+data[n].snack+'" data-makanan="'+data[n].makanan+'" data-minuman="'+data[n].minuman+'">'+data[i].transaksi_nota+'</div>';
+					    }
+					    
+					}
+
+					$('.container__load__left').empty(); 
+					$('.container__load__left').append(content);
+
+					$('.btn-print-nota').unbind('click').click(function() {
+						var id = $(this).data('id');
+						var nota = $(this).data('nota');
+						var snack = $(this).data('snack');
+						var minuman = $(this).data('minuman');
+						var makanan = $(this).data('makanan');
+
+						$.ajax({
+							type:'POST',
+					        url: "controllers/transaksi.ctrl.php?ket=updateket",
+			                dataType: "json",
+			                data:{id:id},
+			                success:function(data){
+			                	
+
+			                }
+			            });
+
+						if (($("#print-kitchen").val()==1 && $("#makanan").val()!=0) && ($("#print-snack").val()==1 && snack==0) && ($("#print-bar").val()==1 && minuman==0)) {
+
+			                windowList = new Array('print/checklist.print.php?set=makanan&id='+nota);
+			        
+				        } else if (($("#print-kitchen").val()==1 && makanan==0) && ($("#print-snack").val()==1 && snack!=0) && ($("#print-bar").val()==1 && minuman==0)) {
+				           
+				                windowList = new Array('print/checklist.print.php?set=snack&id='+nota);
+				        
+				        } else if (($("#print-kitchen").val()==1 && makanan==0) && ($("#print-snack").val()==1 && snack==0) && ($("#print-bar").val()==1 && minuman!=0)) {
+
+				                windowList = new Array('print/checklist.print.php?set=minuman&id='+nota);
+				        
+				        } else if (($("#print-kitchen").val()==1 && makanan!=0) && ($("#print-snack").val()==1 && snack!=0) && ($("#print-bar").val()==1 && minuman==0)) {
+
+				                windowList = new Array('print/checklist.print.php?set=makanan&id='+nota, 'print/checklist.print.php?set=snack&id='+nota);
+				        
+				        } else if (($("#print-kitchen").val()==1 && makanan!=0) && ($("#print-snack").val()==1 && snack==0) && ($("#print-bar").val()==1 && minuman!=0)) {
+
+				                windowList = new Array('print/checklist.print.php?set=makanan&id='+nota, 'print/checklist.print.php?set=minuman&id='+nota);
+				        
+				        } else if (($("#print-kitchen").val()==1 && makanan==0) && ($("#print-snack").val()==1 && snack!=0) && ($("#print-bar").val()==1 && minuman!=0)) {
+
+				                windowList = new Array('print/checklist.print.php?set=snack&id='+nota, 'print/checklist.print.php?set=minuman&id='+nota);
+				        
+				        } else if (($("#print-kitchen").val()==1 && makanan!=0) && ($("#print-snack").val()==1 && snack!=0) && ($("#print-bar").val()==1 && minuman!=0)) {
+
+				                windowList = new Array('print/checklist.print.php?set=makanan&id='+nota , 'print/checklist.print.php?set=snack&id='+nota, 'print/checklist.print.php?set=minuman&id='+nota);
+				        
+				        }
+
+				        i = 0;
+				        windowName = "window";
+				        windowInterval = window.setInterval(function(){
+				            window.open(windowList[i],windowName+i,'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=0,titlebar=no');
+				            i++;
+				            if(i==windowList.length){
+				                window.clearInterval(windowInterval);
+				            }
+				        },1000);
+
+					});
+
+		        }
+		    }); 
+		
+		}, 4000);
+		
 
 		var order_type = $('#defaultForm-ordertype').val();
 		if (order_type!='') {
